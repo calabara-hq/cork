@@ -1,17 +1,18 @@
+@import "@radix-ui/colors/gray.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --background: var(--gray-1);
+  --foreground: var(--gray-11);
+  --primary: var(--gray-9);
+  --secondary: var(--gray-10);
+  --accent-1: var(--gray-3);
+  --accent-2: var(--gray-4);
+  --accent-3: var(--gray-5);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -25,3 +26,8 @@ body {
     text-wrap: balance;
   }
 }
+
+.post-columns {
+  grid-template-columns: repeat(auto-fill, minmax(275px, 2fr));
+}
+
