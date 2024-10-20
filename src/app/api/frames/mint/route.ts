@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
             throw new FrameError('Invalid frame request');
         }
 
-        if (!message.address) {
+        if (!message || !message.address) {
             throw new FrameError('Invalid address')
         }
 
