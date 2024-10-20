@@ -17,7 +17,7 @@ const queryClient = new QueryClient()
 const config = getDefaultConfig({
     appName: "Uplink.wtf",
     appUrl: process.env.NEXT_PUBLIC_CLIENT_URL,
-    projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
+    projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
     chains: [base as Chain, baseSepolia as Chain],
     transports: {
         [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`),

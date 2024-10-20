@@ -1,5 +1,6 @@
-import { Address } from "viem";
-import { IChannel, IUpgradePath, IToken } from "@tx-kit/sdk/subgraph";
+import { Address, Hex } from "viem";
+import { IChannel, IUpgradePath, IToken, ITokenMetadata } from "@tx-kit/sdk/subgraph";
+import { DeferredTokenIntent, DeferredTokenIntentWithSignature } from "@tx-kit/sdk";
 
 export type ChainId = 8453 | 84532;
 export type ContractID = `0x${string}-${ChainId}`;
@@ -36,19 +37,18 @@ export type UploadToIpfsTokenMetadata = {
 
 export type ChannelToken = IToken
 
-// export type ChannelTokenIntent = {
-//     id: string;
-//     spaceId: number;
-//     channelId: number;
-//     channelAddress: Address;
-//     tokenIntent: string
-//     deadline: string;
-//     createdAt: string;
-//     metadata: TokenMetadata;
-//     uri: string;
-//     totalMinted: "0";
-
-// } & DeferredTokenIntentWithSignature;
+export type ChannelTokenIntent = {
+    id: string;
+    chainId: ChainId;
+    channelAddress: Address;
+    tokenIntent: string
+    deadline: string;
+    createdAt: string;
+    metadata: ITokenMetadata;
+    uri: string;
+    totalMinted: "0";
+    nonce: Hex;
+} & DeferredTokenIntentWithSignature;
 
 
 export type ChannelTokenWithUserBalance = ChannelToken & {
@@ -66,3 +66,10 @@ export type TokenPage = {
     data: Array<ChannelToken>
 } & PageInfo
 
+export const isTokenIntent = (token: ChannelToken | ChannelTokenIntent): token is ChannelTokenIntent => {
+    return (token as ChannelTokenIntent).signature !== undefined
+}
+
+export const doesChannelHaveFees = (channel: IChannel) => {
+    return channel.fees !== null;
+}

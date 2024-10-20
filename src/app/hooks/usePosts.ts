@@ -1,9 +1,45 @@
 "use client";
 import useSWRInfinite from "swr/infinite";
-import { TokenPage } from "../types"
-import { fetchOnchainPosts } from "../utils/fetch/tokens";
+import { ChannelToken, TokenPage } from "../types"
+import { clientByChainId, parseV2Metadata } from "../utils/transmissions";
+import constants from "../constants";
 
 type GetPageKey = [string, number, number];
+
+
+
+const client = clientByChainId(constants.CHAIN_ID)
+
+export const fetchOnchainPosts_client = async (pageSize: number, skip: number) => {
+
+    if (!client) {
+        throw new Error("Client not found")
+    }
+
+    const posts = await client.downlinkClient.getChannelTokenPage({
+        channelAddress: constants.CONTRACT_ADDRESS,
+        filters: {
+            pageSize: pageSize + 1,
+            skip: skip,
+            where: {
+                tokenId_not_in: ["0",]  // ...bannedTokens]
+            }
+        }
+    })
+
+    const pageData = posts.slice(0, pageSize)
+    const resolvedTokens = await Promise.all(pageData.map(parseV2Metadata))
+
+    const response: TokenPage = {
+        data: resolvedTokens,
+        pageInfo: {
+            endCursor: pageData.length,
+            hasNextPage: posts.length > pageSize
+        }
+    }
+
+    return response
+}
 
 
 export const usePosts = () => {
@@ -22,7 +58,7 @@ export const usePosts = () => {
 
     const { data, error, size, setSize, mutate } = useSWRInfinite(
         getKey,
-        ([, limit, lastCursor]) => fetchOnchainPosts(limit, lastCursor)
+        ([, limit, lastCursor]) => fetchOnchainPosts_client(limit, lastCursor)
     );
 
     const locatePageOfPost = (pages: Array<TokenPage>, tokenId: bigint) => {
@@ -47,12 +83,12 @@ export const usePosts = () => {
         if (!location) return;
 
         mutate((currentPageData) => {
-            return currentPageData?.map((page, index) => {
+            return currentPageData?.map((page: TokenPage, index: number) => {
                 if (index !== location.pageIndex) return page;
 
                 return {
                     ...page,
-                    data: page.data.map((post, idx) => {
+                    data: page.data.map((post: ChannelToken, idx: number) => {
                         if (idx !== location.postIndex) return post;
                         return { ...post, totalMinted: BigInt(Number(post.totalMinted) + Number(mintAmount)) };
                     }),
@@ -80,7 +116,7 @@ export const usePosts = () => {
 
                 return {
                     ...page,
-                    data: page.data.filter((_, idx) => idx !== location.postIndex)
+                    data: page.data.filter((_: any, idx: number) => idx !== location.postIndex)
                 };
             });
         }, {

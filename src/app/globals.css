@@ -1,24 +1,51 @@
 @import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/gold.css";
+@import "@radix-ui/colors/bronze-dark.css";
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/mint.css";
+@import "@radix-ui/colors/mint-dark.css";
+@import "@radix-ui/colors/orange.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: var(--gray-1);
-  --foreground: var(--gray-11);
-  --primary: var(--gray-9);
-  --secondary: var(--gray-10);
-  --accent-1: var(--gray-3);
-  --accent-2: var(--gray-4);
-  --accent-3: var(--gray-5);
-
+  --background: var(--gold-3);
+  --foreground: black;
+  /* --primary: var(--mint-10); */
+  --primary: var(--gold-9);
+  --secondary: var(--mint-11);
+  --accent-1: var(--gold-4);
+  --accent-2: var(--gold-5);
+  --accent-3: var(--gold-6);
+  --success: #30A46C;
+  --error: var(--red-9);
+  --warning: #FFA500;
+  --warpcast: #7c65c1;
 }
+
+/* .dark {
+  --background: var(--orange-1);
+  --foreground: var(--red-dark-11);
+  --primary: var(--mint-dark-10);
+  --secondary: var(--mint-dark-11);
+  --accent-1: var(--gray-dark-3);
+  --accent-2: var(--gray-dark-4);
+  --accent-3: var(--gray-dark-5);
+  --success: #30A46C;
+  --error: var(--red-dark-9);
+  --warning: #FFA500;
+} */
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+[aria-labelledby="rk_connect_title"] {
+  @apply pointer-events-auto;
 }
 
 @layer utilities {
@@ -27,7 +54,57 @@ body {
   }
 }
 
+/* deal with input zoom on mobile browsers */
+@media screen and (max-width: 767px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
 .post-columns {
   grid-template-columns: repeat(auto-fill, minmax(275px, 2fr));
 }
 
+.mdxeditor {
+  @apply border-2 rounded-lg border-accent1
+}
+
+/* .mdxeditor a {
+  @apply text-primary12 hover:text-primary12/90
+} */
+
+.mdxeditor-popup-container > #data-radix-popper-content-wrapper {
+  @apply !bg-accent1
+}
+
+.mdxeditor-root-contenteditable > div {
+  @apply prose prose-zinc
+}
+
+.md-editor {
+  --baseBg: var(--accent-2) !important;
+  --basePageBg: var(--accent-1) !important;
+  --accentSolid: var(--primary) !important;
+  --accentSolidBg: var(--primary) !important;
+  --accentSolidHover: var(--primary) !important;
+  --accentBorder: var(--primary) !important;
+  --baseBase: var(--accent-2) !important;
+}
+
+.shimmer {
+  @apply relative overflow-hidden bg-accent3 
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: shimmer 1.5s infinite ease-in-out;
+}

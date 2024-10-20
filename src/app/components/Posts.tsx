@@ -1,17 +1,32 @@
 "use client";
 
 import React, { useEffect, useMemo } from "react";
-import { ChannelToken } from "../types";
+import { ChannelToken, ChannelTokenIntent, isTokenIntent } from "../types";
 import { IChannel } from "@tx-kit/sdk/subgraph";
 import RenderIfVisible from "./Virtualization";
 import { useInView } from "react-intersection-observer";
 import { usePosts } from "../hooks/usePosts";
-import { TokenCard, TokenCardFooter } from "./PostCard";
+import { TokenCard } from "./PostCard";
+import Link from "next/link";
+import { DeferredTokenIntentWithSignature } from "@tx-kit/sdk";
 
 export const PostSkeleton = () => {
     return (
-        <p>Loading posts...</p>
-    )
+        <div className="flex flex-col gap-4 w-full">
+            <div className="flex w-full justify-evenly items-center">
+                <div className="w-10/12 sm:w-full m-auto grid gap-4 post-columns auto-rows-fr">
+                    <div className="space-y-2 border-accent2 border p-2 rounded-xl h-[318px] shimmer" />
+                    <div className="space-y-2 lg:col-span-1 border-accent2 border p-2 rounded-xl h-[318px] shimmer" />
+                    <div className="space-y-2 lg:col-span-1 border-accent2 border p-2 rounded-xl h-[318px] shimmer" />
+                    <div className="space-y-2 lg:col-span-1 border-accent2 border p-2 rounded-xl h-[318px] shimmer" />
+                    <div className="space-y-2 lg:col-span-1 border-accent2 border p-2 rounded-xl h-[318px] shimmer" />
+                    <div className="space-y-2 lg:col-span-1 border-accent2 border p-2 rounded-xl h-[318px] shimmer" />
+
+
+                </div>
+            </div>
+        </div>
+    );
 }
 
 
@@ -22,7 +37,7 @@ const MapTokens = React.memo(({
     // handleMint,
     // handleManage
 }: {
-    tokens: Array<ChannelToken>,
+    tokens: Array<ChannelToken | ChannelTokenIntent>,
     //channel: IChannel,
     //spaceName: string,
     // handleMint: (event: any, token: ChannelToken | ChannelTokenV1 | ChannelTokenIntent) => void,
@@ -33,27 +48,24 @@ const MapTokens = React.memo(({
         return (
             <RenderIfVisible
                 key={index}
-                defaultHeight={400}
+                defaultHeight={350}
                 visibleOffset={200}
                 stayRendered={false}
 
             >
-                <div
-                    className="cursor-pointer shadow-lg shadow-black hover:shadow-[#262626] no-select rounded-lg"
+                <Link
+                    className="cursor-pointer shadow-lg shadow-black hover:shadow-[#262626] no-select"
+                    //href={`/token/${token.tokenId}${isTokenIntent(token) && `?intent=true`}`}
+                    href={isTokenIntent(token) ? `/post/${token.id}?intent=true` : `/post/${token.tokenId}`}
                 // onClick={(event) => handleMint(event, token)}
                 >
-                    <TokenCard
-                        key={index}
-                        token={token}
-                        footer={
-                            <TokenCardFooter
-                                token={token}
-                            //channel={channel}
-                            //handleManage={handleManage}
-                            />
-                        }
-                    />
-                </div>
+                    <div className="border bg-accent1 border-accent2 hover:border-accent3 rounded-lg">
+                        <TokenCard
+                            key={index}
+                            token={token}
+                        />
+                    </div>
+                </Link>
             </RenderIfVisible>
         )
     })

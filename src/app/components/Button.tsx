@@ -5,20 +5,20 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/app/utils/shadcn"
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm text-t1 font-medium transition-colors focus-visible:outline-none focus-visible:ring-0 disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm text-foreground font-medium transition-colors focus-visible:outline-none focus-visible:ring-0 disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
                 default:
                     "bg-primary shadow hover:bg-primary/90",
                 secondary:
-                    "bg-primary6 text-primary11 shadow hover:bg-primary6/90",
+                    "bg-secondary text-foreground shadow hover:bg-secondary/90",
                 destructive:
-                    "bg-transparent border border-border shadow-sm hover:bg-error/80 hover:border-error/80",
+                    "bg-transparent border border-primary shadow-sm hover:bg-error hover:border-error",
                 outline:
-                    "border border-border bg-transparent shadow-sm hover:bg-accent ",
-                ghost: "hover:bg-accent",
-                link: "text-primary12 underline-offset-4 hover:underline",
+                    "border border-accent3 bg-transparent shadow-sm hover:bg-accent3 ",
+                ghost: "hover:bg-accent1",
+                link: "text-foreground underline-offset-4 hover:underline",
             },
             size: {
                 default: "h-9 px-4 py-2",

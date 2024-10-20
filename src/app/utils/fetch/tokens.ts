@@ -1,10 +1,11 @@
 import constants from "@/app/constants"
 import { clientByChainId, parseV2Metadata } from "../transmissions"
-import { TokenPage } from "@/app/types"
+import { ChannelToken, TokenPage } from "@/app/types"
+import { cache } from "react"
 
 const client = clientByChainId(constants.CHAIN_ID)
 
-export const fetchOnchainPosts = async (pageSize: number, skip: number) => {
+export const fetchOnchainPosts = cache(async (pageSize: number, skip: number) => {
 
     if (!client) {
         throw new Error("Client not found")
@@ -33,4 +34,21 @@ export const fetchOnchainPosts = async (pageSize: number, skip: number) => {
     }
 
     return response
+})
+
+export const fetchSinglePost = async (id: string, isIntent: boolean = false): Promise<ChannelToken> => {
+    if (!client) {
+        throw new Error("Client not found")
+    }
+
+    return client.downlinkClient.getChannelTokenPage({
+        channelAddress: constants.CONTRACT_ADDRESS,
+        filters: {
+            pageSize: 1,
+            skip: 0,
+            where: {
+                tokenId_in: [id]
+            }
+        }
+    }).then(data => data[0]).then(parseV2Metadata)
 }

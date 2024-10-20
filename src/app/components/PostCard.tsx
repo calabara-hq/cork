@@ -1,6 +1,6 @@
 "use client"
 
-import { ChannelToken } from "@/app/types"
+import { ChannelToken, ChannelTokenIntent } from "@/app/types"
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { isMobile } from "../utils/isMobile";
@@ -10,6 +10,9 @@ import { ImageWrapper } from "./MediaWrapper";
 import { RenderInteractiveVideoWithLoader } from "./Video";
 import { Button } from "./Button";
 import { ITokenMetadata } from "@tx-kit/sdk/subgraph";
+import { AddressOrEns, NoggleAvatar } from "./User";
+import { Zap } from "lucide-react";
+import { OptimizedImage } from "./OptimizedImage";
 // import { RenderInteractiveVideoWithLoader } from "../VideoPlayer";
 // import { parseIpfsUrl } from "@/lib/ipfs";
 // import { ImageWrapper } from "../Submission/MediaWrapper";
@@ -23,35 +26,26 @@ import { ITokenMetadata } from "@tx-kit/sdk/subgraph";
 
 const compact_formatter = new Intl.NumberFormat('en', { notation: 'compact' })
 
-
-const CardRenderer = ({ token, isActive }: { token: ChannelToken, isActive: boolean }) => {
-
+const CardMediaRenderer = ({ token, isActive }: { token: ChannelToken | ChannelTokenIntent, isActive: boolean }) => {
 
     if (token.metadata?.animation) return (
-        <React.Fragment>
-            <RenderInteractiveVideoWithLoader videoUrl={parseIpfsUrl(token.metadata.animation).gateway} posterUrl={parseIpfsUrl(token.metadata.image).gateway} isActive={isActive} />
-            <p className="font-bold text-t1 line-clamp-1">{token.metadata.name}</p>
-        </React.Fragment>
+        <RenderInteractiveVideoWithLoader videoUrl={parseIpfsUrl(token.metadata.animation).gateway} posterUrl={parseIpfsUrl(token.metadata.image).gateway} isActive={isActive} />
     )
 
     else if (token.metadata?.image) return (
-        <React.Fragment>
-            <ImageWrapper >
-                <Image
-                    src={parseIpfsUrl(token.metadata.image).gateway}
-                    draggable={false}
-                    alt="submission image"
-                    fill
-                    sizes="30vw"
-                    className="object-contain w-full h-full transition-transform duration-300 ease-in-out rounded-xl"
-                />
-            </ImageWrapper>
-            <p className="font-bold text-t1 line-clamp-1">{token.metadata.name}</p>
-        </React.Fragment>
+        <ImageWrapper >
+            <OptimizedImage
+                src={parseIpfsUrl(token.metadata.image).gateway}
+                alt="submission image"
+                width={300}
+                height={400}
+                sizes="30vw"
+                className="object-contain w-full h-full transition-transform duration-300 ease-in-out rounded-xl"
+            />
+        </ImageWrapper>
     )
 
     else return null;
-
 }
 
 export const MintButton = ({ onClick, styleOverride }: { onClick: (event: React.MouseEvent<HTMLButtonElement>) => void, styleOverride?: string }) => {
@@ -65,51 +59,8 @@ export const MintButton = ({ onClick, styleOverride }: { onClick: (event: React.
     )
 }
 
-export const TokenCardFooter = ({
-    token,
-    //channel,
-    //handleManage,
-    mintLabel = "mints",
-}: {
-    token: ChannelToken
-    //channel: Channel,
-    //handleManage: (event: any, token: ChannelToken | ChannelTokenV1 | ChannelTokenIntent) => void,
-    mintLabel?: string
-}) => {
 
-    return (
-        <div className="flex flex-col w-full">
-            <div className="flex w-full items-center gap-2">
-                <div className="w-full gap-2 flex flex-wrap items-center font-semibold text-sm text-t2">
-                    {/* <Avatar address={token.author} size={28} />
-                    <AddressOrEns address={token.author} /> */}
-                    {Number(token.totalMinted) > 0 ? (
-                        <span className="ml-auto text-t2 text-sm font-medium">
-                            {compact_formatter.format(Number(token.totalMinted))} {mintLabel}
-                        </span>
-                    ) : (
-                        <span />
-                    )}
-                </div>
-
-                {/* <AdminWrapper admins={channel.managers.map(manager => { return { address: manager } })}>
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-t2"
-                        onClick={(event: any) => handleManage(event, token)}>
-                        <MdOutlineSettings className="h-6 w-6" />
-                    </Button>
-                </AdminWrapper> */}
-
-
-            </div>
-        </div>
-    )
-}
-
-
-export const TokenCard = ({ token, footer, showTotalMints = true }: { token: ChannelToken, footer: React.ReactNode, showTotalMints?: boolean }) => {
+export const TokenCard = ({ token, showTotalMints = true }: { token: ChannelToken | ChannelTokenIntent, showTotalMints?: boolean }) => {
     const [isActive, setIsActive] = useState(false);
     const isMobileDevice = isMobile();
 
@@ -128,9 +79,28 @@ export const TokenCard = ({ token, footer, showTotalMints = true }: { token: Cha
             onMouseEnter={() => !isMobileDevice && setIsActive(true)}
             onMouseLeave={() => !isMobileDevice && setIsActive(false)}
         >
-            <CardRenderer token={token} isActive={isActive} />
-            <div className="bg-base w-full h-0.5" />
-            {footer}
+            <CardMediaRenderer token={token} isActive={isActive} />
+
+
+            <div className="flex flex-row gap-2 items-center text-primary">
+                <NoggleAvatar address={token.author} size={28} />
+                <div className="rounded-lg bg-accent2 text-xs px-2 py-1">
+                    <AddressOrEns address={token.author} />
+                </div>
+                {Number(token.totalMinted) > 0 ? (
+                    <div className="flex flex-row items-center gap-1 text-sm font-medium rounded-lg bg-accent2 px-2 ml-auto">
+                        <Zap className="w-4 h-4 text-primary" />
+                        {compact_formatter.format(Number(token.totalMinted))}
+                    </div>
+                ) : (
+                    <div />
+                )}
+            </div>
+
+
+
+            <p className="font-bold text-t1 line-clamp-1">{token.metadata?.name ?? ""}</p>
+
         </div>
 
     )

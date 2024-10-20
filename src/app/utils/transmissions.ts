@@ -2,10 +2,8 @@ import { TransmissionsClient, getSubgraphUrl } from '@tx-kit/sdk';
 import { createWeb3Client } from './viem';
 import { createWalletClient, http } from 'viem';
 import { base, baseSepolia } from 'viem/chains';
-import { isAddress } from "viem"
-import { ChannelToken, ContractID, TokenMetadata } from "@/app/types";
-import { IChannel, IToken } from "@tx-kit/sdk/subgraph";
-import { Address } from "viem";
+import { ChainId, ChannelToken, ContractID } from "@/app/types";
+import { IToken, ITokenMetadata } from "@tx-kit/sdk/subgraph";
 
 
 const { downlinkClient: baseSepoliaDownlinkClient, uplinkClient: baseSepoliaUplinkClient } = new TransmissionsClient({
@@ -17,7 +15,7 @@ const { downlinkClient: baseSepoliaDownlinkClient, uplinkClient: baseSepoliaUpli
     walletClient: createWalletClient({
         chain: baseSepolia,
         transport: http(`https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`)
-    })
+    }),
 })
 
 const { downlinkClient: baseDownlinkClient, uplinkClient: baseUplinkClient } = new TransmissionsClient({
@@ -41,7 +39,7 @@ export const clientByChainId = (chainId: number) => {
     }
 }
 
-export const concatContractID = ({ chainId, contractAddress }: { chainId: number, contractAddress: string }) => {
+export const concatContractID = ({ chainId, contractAddress }: { chainId: ChainId, contractAddress: string }) => {
     return `${contractAddress}-${chainId}` as ContractID;
 }
 
@@ -86,7 +84,7 @@ export const parseV2Metadata = async (token: IToken): Promise<ChannelToken> => {
     if (!token.metadata) {
         try {
             const uri = parseIpfsUrl(token.uri).gateway;
-            const metadataFn: () => Promise<TokenMetadata> = () => {
+            const metadataFn: () => Promise<ITokenMetadata> = () => {
                 return fetch(uri)
                     .then((res) => res.json())
                     .then((data: any) => {
@@ -102,7 +100,7 @@ export const parseV2Metadata = async (token: IToken): Promise<ChannelToken> => {
                     })
             }
 
-            const resolvedMetadata: TokenMetadata = await metadataFn();
+            const resolvedMetadata: ITokenMetadata = await metadataFn();
 
             return {
                 ...token,

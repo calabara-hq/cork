@@ -41,7 +41,7 @@ export const MintSplits = ({ channelFees, spaceName }: { channelFees: ICustomFee
 
 
     return (
-        <Card className="p-2 lg:p-4">
+        <Card className="p-2 lg:p-4 rounded-lg">
             <div className="flex flex-col gap-2">
                 <div className="flex flex-col gap-1">
                     <CardTitle>Mint price</CardTitle>
@@ -60,14 +60,19 @@ export const MintSplits = ({ channelFees, spaceName }: { channelFees: ICustomFee
                         el.percentage > 0 && (
                             <TooltipProvider delayDuration={200} key={idx}>
                                 <div
-                                    className="h-6 md:h-12"
+                                    className={`h-6 md:h-12`}
+                                    //w-[${el.percentage * 5}px]
                                     style={{
                                         width: `${el.percentage * 5}px`,  // Dynamically set width based on percentage
-                                        backgroundColor: el.fill,  // Use the fill color from your data
+                                        //backgroundColor: el.fill,  // Use the fill color from your data
                                     }}
                                 >
                                     <Tooltip key={idx}>
-                                        <TooltipTrigger className="w-full h-full" />
+                                        <TooltipTrigger
+                                            className={`w-full h-full bg-primary`}
+                                            style={{ opacity: 1 - 0.2 * idx }}
+                                        />
+                                        {/* <TooltipTrigger className={`w-full h-full bg-primary `} /> */}
                                         <TooltipContent>
                                             <div className="rounded-lg p-4 font-bold">
                                                 <p>{el.recipient}: {el.percentage}%</p>
@@ -87,8 +92,8 @@ export const MintSplits = ({ channelFees, spaceName }: { channelFees: ICustomFee
                         return (
                             <div key={idx} className="flex items-center gap-1">
                                 <div
-                                    className="h-3 w-3"
-                                    style={{ backgroundColor: el.fill }}
+                                    className="h-3 w-3 bg-primary"
+                                    style={{ opacity: 1 - 0.2 * idx }}
                                 />
                                 <p className="text-xs">{el.recipient}</p>
                             </div>

@@ -1,10 +1,12 @@
 import { IChannel } from "@tx-kit/sdk/subgraph"
 import { clientByChainId, parseV2Metadata } from "../transmissions"
 import constants from "@/app/constants"
+import { cache } from "react"
 
 const client = clientByChainId(constants.CHAIN_ID)
 
-export const fetchChannel = async (): Promise<IChannel> => {
+
+export const fetchChannel = cache(async (): Promise<IChannel> => {
 
     if (!client) {
         throw new Error("Client not found")
@@ -19,4 +21,4 @@ export const fetchChannel = async (): Promise<IChannel> => {
     })
 
     return channel;
-}
+})
