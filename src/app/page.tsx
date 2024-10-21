@@ -8,6 +8,7 @@ import SwrProvider from "./providers/SwrProvider"
 import { RenderPosts } from "./components/Posts"
 import { Button } from "./components/Button"
 import Link from "next/link"
+import constants from "./constants"
 
 
 // const Header = async () => {
@@ -42,7 +43,7 @@ const Scratch = async () => {
         <p>{channel.tokens[0].metadata?.description ?? ''}</p>
       </div>
       <div className="flex flex-col gap-4">
-        {channel.fees && <MintSplits channelFees={channel.fees.fees} spaceName={channel.tokens[0].metadata?.name ?? ''} />}
+        {channel.fees && <MintSplits channelFees={channel.fees.fees} spaceName={constants.ORG_NAME} />}
         <Link href="/studio" passHref >
           <Button className="w-full h-12">Post</Button>
         </Link>

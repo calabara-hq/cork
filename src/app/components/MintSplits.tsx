@@ -31,7 +31,7 @@ export const MintSplits = ({ channelFees, spaceName }: { channelFees: ICustomFee
         { recipient: "Creator", percentage: channelFees.creatorPercentage, fill: hexToRgba('var(--primary)', 1) },
         { recipient: "Referral", percentage: channelFees.mintReferralPercentage, fill: hexToRgba('var(--primary)', 0.9) },
         { recipient: "Sponsor", percentage: channelFees.sponsorPercentage, fill: hexToRgba('var(--primary)', 0.8) },
-        { recipient: "Protocol", percentage: channelFees.uplinkPercentage, fill: hexToRgba('var(--primary)', 0.7) },
+        { recipient: "Uplink", percentage: channelFees.uplinkPercentage, fill: hexToRgba('var(--primary)', 0.7) },
         { recipient: spaceName, percentage: channelFees.channelPercentage, fill: hexToRgba('var(--primary)', 0.6) },
     ];
 

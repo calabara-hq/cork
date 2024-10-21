@@ -6,13 +6,15 @@ type Constants = {
     CHAIN_ID: ChainId;
     INTENTS: boolean;
     WC_CHANNEL_KEY: string;
+    ORG_NAME: string;
 }
 
 const constants = {
     CONTRACT_ADDRESS: '0xD01Efe422983294654694Af59cf0b3Db0ea81781',
     CHAIN_ID: 8453,
     INTENTS: false,
-    WC_CHANNEL_KEY: 'nouns'
+    WC_CHANNEL_KEY: 'nouns',
+    ORG_NAME: 'Nouns'
 } as Constants;
 
 export default constants;
