@@ -9,8 +9,8 @@ type Constants = {
 }
 
 const constants = {
-    CONTRACT_ADDRESS: '0x1e4fd9e582a0652e012763fdC2575308de8d3C83',
-    CHAIN_ID: 84532,
+    CONTRACT_ADDRESS: '0xD01Efe422983294654694Af59cf0b3Db0ea81781',
+    CHAIN_ID: 8453,
     INTENTS: false,
     WC_CHANNEL_KEY: 'nouns'
 } as Constants;

@@ -1,27 +1,27 @@
 
 
 export const replaceGatewayLinksInString = (str: string) => {
-    return str.replace(/https:\/\/uplink.mypinata.cloud\/ipfs\//g, 'ipfs://');
+    return str.replace(/https:\/\/ipfs.cork.wtf\/ipfs\//g, 'ipfs://');
 }
 
 export const replaceIpfsLinkWithGateway = (str: string) => {
     return str.replace(/ipfs:\/\/[^ ]+/g, (match) => {
-        return `https://uplink.mypinata.cloud/ipfs/${match.split('ipfs://')[1]}`;
+        return `https://ipfs.cork.wtf/ipfs/${match.split('ipfs://')[1]}`;
     });
 }
 
 
-// given an ipfs url, return both the "raw" ipfs protocol url and the gateway url (uplink.mypinata.cloud)
+// given an ipfs url, return both the "raw" ipfs protocol url and the gateway url (ipfs.cork.wtf)
 export const parseIpfsUrl = (url: string) => {
     if (url.startsWith('ipfs://')) {
         const hash = url.split('ipfs://')[1];
         return {
             raw: url,
-            gateway: `https://uplink.mypinata.cloud/ipfs/${hash}`,
+            gateway: `https://ipfs.cork.wtf/ipfs/${hash}`,
         }
     }
-    if (url.startsWith('https://uplink.mypinata.cloud/ipfs/')) {
-        const hash = url.split('https://uplink.mypinata.cloud/ipfs/')[1];
+    if (url.startsWith('https://ipfs.cork.wtf/ipfs/')) {
+        const hash = url.split('https://ipfs.cork.wtf/ipfs/')[1];
         return {
             raw: `ipfs://${hash}`,
             gateway: url,

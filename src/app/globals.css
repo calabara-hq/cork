@@ -1,10 +1,6 @@
-@import "@radix-ui/colors/gray.css";
 @import "@radix-ui/colors/gold.css";
-@import "@radix-ui/colors/bronze-dark.css";
 @import "@radix-ui/colors/red.css";
-@import "@radix-ui/colors/mint.css";
 @import "@radix-ui/colors/mint-dark.css";
-@import "@radix-ui/colors/orange.css";
 
 @tailwind base;
 @tailwind components;
@@ -56,7 +52,10 @@ body {
 
 /* deal with input zoom on mobile browsers */
 @media screen and (max-width: 767px) {
-  input, textarea, select {
+
+  input,
+  textarea,
+  select {
     font-size: 16px !important;
   }
 }
@@ -73,11 +72,11 @@ body {
   @apply text-primary12 hover:text-primary12/90
 } */
 
-.mdxeditor-popup-container > #data-radix-popper-content-wrapper {
+.mdxeditor-popup-container>#data-radix-popper-content-wrapper {
   @apply !bg-accent1
 }
 
-.mdxeditor-root-contenteditable > div {
+.mdxeditor-root-contenteditable>div {
   @apply prose prose-zinc
 }
 
@@ -92,19 +91,17 @@ body {
 }
 
 .shimmer {
-  @apply relative overflow-hidden bg-accent3 
+  @apply relative overflow-hidden bg-accent3
 }
 
 .shimmer::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%);
   transform: translateX(-100%);
   animation: shimmer 1.5s infinite ease-in-out;
 }

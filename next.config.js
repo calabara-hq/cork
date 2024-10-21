@@ -15,6 +15,11 @@ const nextConfig = {
                 hostname: 'uplink.mypinata.cloud',
                 port: '',
             },
+            {
+                protocol: 'https',
+                hostname: 'ipfs.cork.wtf',
+                port: '',
+            },
         ]
     },
 };

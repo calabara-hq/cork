@@ -30,20 +30,6 @@ import Link from "next/link"
 // }
 
 
-const Header = async () => {
-  const channel = await fetchChannel()
-
-  return null;
-
-  return (
-    <div className="grid grid-cols-1">
-      <div className="flex flex-col gap-2 bg-accent1 rounded-lg p-2">
-        <p className="text-2xl">{channel.tokens[0].metadata?.name ?? ''}</p>
-        <p>{channel.tokens[0].metadata?.description ?? ''}</p>
-      </div>
-    </div>
-  )
-}
 
 const Scratch = async () => {
 
@@ -52,7 +38,7 @@ const Scratch = async () => {
   return (
     <div className="flex flex-col gap-4 sticky top-4">
       <div className="flex flex-col gap-2 bg-accent1 rounded-lg p-2">
-        <p className="text-2xl">{channel.tokens[0].metadata?.name ?? ''}</p>
+        {/* <p className="text-2xl">{channel.tokens[0].metadata?.name ?? ''}</p> */}
         <p>{channel.tokens[0].metadata?.description ?? ''}</p>
       </div>
       <div className="flex flex-col gap-4">
@@ -92,9 +78,6 @@ export default function Home() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[65%_30%] gap-4 justify-between">
       <div className="flex flex-col gap-2 order-2 md:order-1">
-        <Suspense fallback={<div>Loading...</div>}>
-          <Header />
-        </Suspense>
         <div className="">
           <Posts tab="default" />
         </div>

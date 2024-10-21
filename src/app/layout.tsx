@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import WalletConnectButton from "./components/WalletConnectButton";
 import { Noggles } from "./components/Noggles";
+import Image from "next/image";
 
 export const revalidate = 60;
 
@@ -51,9 +52,10 @@ const Navbar = () => {
     <div className="bg-accent1 text-3xl h-16 flex items-center">
       <div className="w-full lg:w-9/12 m-auto flex justify-between items-center p-2 lg:p-0">
         <Link href="/" passHref draggable={false}>
-          <div className="w-16 h-16">
+          {/* <div className="w-16 h-16">
             <Noggles color="#d19a54" />
-          </div>
+          </div> */}
+          <Image src="/noggles.svg" alt="noggles" width={72} height={72} />
         </Link>
         <div className="ml-auto">
           <WalletConnectButton />
