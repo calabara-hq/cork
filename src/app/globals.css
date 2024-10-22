@@ -1,6 +1,6 @@
 @import "@radix-ui/colors/gold.css";
 @import "@radix-ui/colors/red.css";
-@import "@radix-ui/colors/mint-dark.css";
+@import "@radix-ui/colors/mint.css";
 
 @tailwind base;
 @tailwind components;

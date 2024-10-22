@@ -125,7 +125,7 @@ export const MintExpandedDisplay = ({
                     <span>home</span>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-[3fr_1fr] gap-6 w-full items-start">
-                    <div className="flex flex-col gap-4 items-center justify-center flex-grow-0 m-auto w-full prose">
+                    <div className="flex flex-col gap-4 items-center justify-center flex-grow-0 m-auto w-full prose overflow-hidden">
                         <RenderMintMedia imageURI={metadata?.image ?? ""} animationURI={metadata?.animation ?? ""} size="lg" />
                         {metadata?.description && <RenderMarkdown content={metadata.description} />}
                     </div>
