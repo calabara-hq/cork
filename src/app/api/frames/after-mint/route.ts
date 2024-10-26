@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
                     }
 
                 ],
-                image: "https://uplink.mypinata.cloud/ipfs/QmQCKPZu1FUV3aLQz2K2dGdsTT3DjJhJabYNE5UUULaw33",
+                image: "https://ipfs.cork.wtf/ipfs/QmQCKPZu1FUV3aLQz2K2dGdsTT3DjJhJabYNE5UUULaw33",
             })
         )
 

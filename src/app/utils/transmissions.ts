@@ -62,11 +62,11 @@ export const parseIpfsUrl = (url: string) => {
         const hash = url.split('ipfs://')[1];
         return {
             raw: url,
-            gateway: `https://uplink.mypinata.cloud/ipfs/${hash}`,
+            gateway: `https://ipfs.cork.wtf/ipfs/${hash}`,
         }
     }
-    if (url.startsWith('https://uplink.mypinata.cloud/ipfs/')) {
-        const hash = url.split('https://uplink.mypinata.cloud/ipfs/')[1];
+    if (url.startsWith('https://ipfs.cork.wtf/ipfs/')) {
+        const hash = url.split('https://ipfs.cork.wtf/ipfs/')[1];
         return {
             raw: `ipfs://${hash}`,
             gateway: url,

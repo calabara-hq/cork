@@ -32,7 +32,7 @@ export const IpfsUpload = async (file: File | Blob) => {
         }
 
         const responseData = await response.json();
-        return `https://uplink.mypinata.cloud/ipfs/${responseData.IpfsHash}`;
+        return `https://ipfs.cork.wtf/ipfs/${responseData.IpfsHash}`;
     } catch (err) {
         console.error("Fetch error:", err);
         return "";

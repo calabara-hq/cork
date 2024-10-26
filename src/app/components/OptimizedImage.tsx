@@ -1,5 +1,6 @@
+"use client";
 import Image from "next/image"
-
+import { useEffect, useState } from "react"
 
 export const OptimizedImage = ({
     src,
@@ -24,9 +25,13 @@ export const OptimizedImage = ({
     const urlWidth = width ? `img-width=${width}` : ''
     const urlHeight = height ? `&img-height=${height}` : ''
     const urlQuality = `&img-quality=${quality}`
-
-
     const url = `${src}?${urlWidth}${urlHeight}${urlQuality}`
+
+    const [error, setError] = useState(false)
+
+    useEffect(() => {
+        setError(false)
+    }, [url])
 
     const props = {
         ...(width && { width }),
@@ -39,8 +44,9 @@ export const OptimizedImage = ({
 
     return (
         <Image
-            src={url}
+            src={error ? src : url}
             alt={alt}
+            onError={() => setError(true)}
             {...props}
         />
     )
