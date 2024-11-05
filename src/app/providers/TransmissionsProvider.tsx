@@ -19,17 +19,25 @@ const TransmissionsClientProvider = ({ children }: { children: React.ReactNode }
     const { data: walletClient, status } = useWalletClient();
     const publicClient = usePublicClient();
 
-    const transmissionsClientConfig = useMemo(() => ({
-        chainId: SUPPORTED_CHAIN_IDS.includes(chainId) ? chainId : 8453,
-        walletClient: walletClient,
-        publicClient: publicClient,
-        apiConfig: {
-            serverUrl: getSubgraphUrl(chainId),
-        },
-        paymasterConfig: {
-            paymasterUrl: process.env.NODE_ENV === "production" ? `${process.env.NEXT_PUBLIC_HUB_URL}/v2/paymaster_proxy` : 'https://paymaster.base.org',
+    const transmissionsClientConfig = useMemo(() => {
+        if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
+            return undefined;
         }
-    }), [chainId, walletClient, publicClient]);
+
+        return {
+            chainId,
+            walletClient,
+            publicClient,
+            apiConfig: {
+                serverUrl: getSubgraphUrl(chainId),
+            },
+            paymasterConfig: {
+                paymasterUrl: process.env.NODE_ENV === "production"
+                    ? `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/paymaster_proxy`
+                    : 'https://paymaster.base.org',
+            },
+        };
+    }, [chainId, walletClient, publicClient]);
 
     useTransmissionsClient(transmissionsClientConfig);
 

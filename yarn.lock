@@ -8535,6 +8535,7 @@ __metadata:
     lucide-react: "npm:^0.453.0"
     media-chrome: "npm:1.4.2"
     next: "npm:14.1.0"
+    permissionless: "npm:0.1.43"
     pino-pretty: "npm:^11.2.2"
     postcss: "npm:^8"
     react: "npm:^18"
@@ -8912,6 +8913,15 @@ __metadata:
   version: 1.1.2
   resolution: "pathe@npm:1.1.2"
   checksum: 10c0/64ee0a4e587fb0f208d9777a6c56e4f9050039268faaaaecd50e959ef01bf847b7872785c36483fa5cdcdbdfdb31fef2ff222684d4fc21c330ab60395c681897
+  languageName: node
+  linkType: hard
+
+"permissionless@npm:0.1.43":
+  version: 0.1.43
+  resolution: "permissionless@npm:0.1.43"
+  peerDependencies:
+    viem: ^2.14.1
+  checksum: 10c0/84b023b1d62fbfd461c0a8bb0216a441f7ab2f417cbe0638313749b58ba226ea9c7aaee1ebd25dd1e5d9a7389586791abfe0c777723a2be905c4f1bf7ace2750
   languageName: node
   linkType: hard
 
