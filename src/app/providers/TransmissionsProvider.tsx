@@ -2,7 +2,7 @@
 import { TransmissionsProvider, useTransmissionsClient } from '@tx-kit/hooks';
 import { getSubgraphUrl, SUPPORTED_CHAIN_IDS } from '@tx-kit/sdk';
 import { useMemo } from 'react';
-import { useChainId, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 
 const TxProvider = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -15,12 +15,14 @@ const TxProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 const TransmissionsClientProvider = ({ children }: { children: React.ReactNode }) => {
-    const chainId = useChainId();
     const { data: walletClient, status } = useWalletClient();
     const publicClient = usePublicClient();
 
     const transmissionsClientConfig = useMemo(() => {
-        if (!SUPPORTED_CHAIN_IDS.includes(chainId)) {
+
+        const chainId = walletClient?.chain?.id;
+
+        if (!chainId || !SUPPORTED_CHAIN_IDS.includes(chainId)) {
             return undefined;
         }
 
@@ -37,7 +39,7 @@ const TransmissionsClientProvider = ({ children }: { children: React.ReactNode }
                     : 'https://paymaster.base.org',
             },
         };
-    }, [chainId, walletClient, publicClient]);
+    }, [walletClient, publicClient]);
 
     useTransmissionsClient(transmissionsClientConfig);
 
