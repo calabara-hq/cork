@@ -2,7 +2,7 @@
 import { TransmissionsProvider, useTransmissionsClient } from '@tx-kit/hooks';
 import { getSubgraphUrl, SUPPORTED_CHAIN_IDS } from '@tx-kit/sdk';
 import { useMemo } from 'react';
-import { useChainId, usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient, useWalletClient } from 'wagmi';
 
 const TxProvider = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -15,21 +15,31 @@ const TxProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 const TransmissionsClientProvider = ({ children }: { children: React.ReactNode }) => {
-    const chainId = useChainId();
     const { data: walletClient, status } = useWalletClient();
     const publicClient = usePublicClient();
 
-    const transmissionsClientConfig = useMemo(() => ({
-        chainId: SUPPORTED_CHAIN_IDS.includes(chainId) ? chainId : 8453,
-        walletClient: walletClient,
-        publicClient: publicClient,
-        apiConfig: {
-            serverUrl: getSubgraphUrl(chainId),
-        },
-        paymasterConfig: {
-            paymasterUrl: process.env.NODE_ENV === "production" ? `${process.env.NEXT_PUBLIC_HUB_URL}/v2/paymaster_proxy` : 'https://paymaster.base.org',
+    const transmissionsClientConfig = useMemo(() => {
+
+        const chainId = walletClient?.chain?.id;
+
+        if (!chainId || !SUPPORTED_CHAIN_IDS.includes(chainId)) {
+            return undefined;
         }
-    }), [chainId, walletClient, publicClient]);
+
+        return {
+            chainId,
+            walletClient,
+            publicClient,
+            apiConfig: {
+                serverUrl: getSubgraphUrl(chainId),
+            },
+            paymasterConfig: {
+                paymasterUrl: process.env.NODE_ENV === "production"
+                    ? `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/paymaster_proxy`
+                    : 'https://paymaster.base.org',
+            },
+        };
+    }, [walletClient, publicClient]);
 
     useTransmissionsClient(transmissionsClientConfig);
 

@@ -50,12 +50,12 @@ export const metadata: Metadata = {
 const Navbar = () => {
   return (
     <div className="bg-accent1 text-3xl h-16 flex items-center">
-      <div className="w-full lg:w-9/12 m-auto flex justify-between items-center p-2 lg:p-0">
+      <div className="w-full lg:w-9/12 m-auto flex justify-between items-center pl-2 pr-2 lg:p-0">
         <Link href="/" passHref draggable={false}>
-          {/* <div className="w-16 h-16">
+          <div className="w-16 h-16">
             <Noggles color="#d19a54" />
-          </div> */}
-          <Image src="/noggles.svg" alt="noggles" width={72} height={72} />
+          </div>
+          {/* <Image src="/noggles.svg" alt="noggles" width={80} height={80} /> */}
         </Link>
         <div className="ml-auto">
           <WalletConnectButton />
